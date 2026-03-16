@@ -315,7 +315,7 @@ footer{padding:36px 2rem;border-top:1px solid var(--border)}
       <div>
         <p class="cl">If you have a performance marketing challenge — whether it's campaigns that aren't converting, tracking that needs rebuilding, or operations that need to run without manual effort — I'm happy to have a conversation.</p>
         <div class="cls">
-          <a href="/cdn-cgi/l/email-protection#1b686972707a756f73697e7f7f62747d7d7278727a77225b7c767a727735787476" class="cla" onclick="gtag('event','contact_click',{method:'email'})"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="__cf_email__" data-cfemail="3744455e5c5659435f455253534e5851515e545e565b0e77505a565e5b1954585a">[email&#160;protected]</span></a>
+          <a href="#" id="email-link" class="cla" onclick="gtag('event','contact_click',{method:'email'})"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span id="email-text"></span></a>
           <a href="https://www.linkedin.com/in/srikanth-reddy-performance-marketing-lead/" class="cla" target="_blank" rel="noopener" onclick="gtag('event','contact_click',{method:'linkedin'})"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>linkedin.com/in/srikanth-reddy-performance-marketing-lead</a>
           <a href="https://github.com/srikanthreddy979797-sys" class="cla" target="_blank" rel="noopener" onclick="gtag('event','contact_click',{method:'github'})"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>github.com/srikanthreddy979797-sys</a>
         </div>
@@ -337,6 +337,8 @@ footer{padding:36px 2rem;border-top:1px solid var(--border)}
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:0.07});
 document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+// Set email via JS to prevent Cloudflare obfuscation
+(function(){const u='srikanthreddyofficial9';const d='gmail.com';const e=u+'@'+d;document.getElementById('email-link').href='mailto:'+e;document.getElementById('email-text').textContent=e;})();
 function handleSubmit(){
   const n=document.getElementById('fn').value.trim();
   const e=document.getElementById('fe').value.trim();
