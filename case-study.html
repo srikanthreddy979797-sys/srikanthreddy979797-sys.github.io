@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Case Study: Google Ads Keyword Intelligence Tool — Srikanth Reddy</title>
+<meta name="description" content="How I built an AI-powered keyword research and campaign automation tool that reduces Google Ads campaign setup from hours to minutes."/>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PSQXP672');</script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#111827;--ink2:#374151;--ink3:#6b7280;--ink4:#9ca3af;
+  --paper:#fff;--paper2:#f9fafb;--paper3:#f3f4f6;--paper4:#e5e7eb;
+  --accent:#1d4ed8;--ah:#1e40af;--al:#eff6ff;--am:#bfdbfe;
+  --border:#e5e7eb;--border2:#d1d5db;
+  --sans:'Roboto',system-ui,sans-serif;
+  --max:820px;--r:6px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-i{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px}
+.nav-logo{font-size:17px;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-back{font-size:13px;color:var(--ink3);text-decoration:none;display:flex;align-items:center;gap:6px}
+.nav-back:hover{color:var(--accent)}
+
+.hero{max-width:var(--max);margin:0 auto;padding:112px 2rem 64px}
+.kicker{font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+h1{font-size:clamp(28px,4vw,44px);line-height:1.1;color:var(--ink);margin-bottom:20px;font-weight:700;letter-spacing:-.5px}
+.hero-sub{font-size:17px;color:var(--ink2);line-height:1.75;margin-bottom:32px;font-weight:300}
+.meta{display:flex;gap:24px;flex-wrap:wrap;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:48px}
+.meta-item .label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:4px}
+.meta-item .value{font-size:14px;color:var(--ink);font-weight:500}
+
+.body{max-width:var(--max);margin:0 auto;padding:0 2rem 96px}
+h2{font-size:24px;color:var(--ink);margin:48px 0 16px;font-weight:700;letter-spacing:-.3px}
+h3{font-size:18px;color:var(--ink);margin:32px 0 12px;font-weight:700}
+p{font-size:15px;color:var(--ink2);line-height:1.8;margin-bottom:20px;font-weight:300}
+ul{margin:0 0 20px 20px}
+ul li{font-size:15px;color:var(--ink2);line-height:1.8;margin-bottom:8px;font-weight:300}
+
+.callout{background:var(--al);border-left:3px solid var(--accent);border-radius:0 var(--r) var(--r) 0;padding:16px 20px;margin:24px 0}
+.callout p{color:var(--accent);font-weight:400;margin:0;font-size:14px}
+
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:32px 0}
+.stat-box{background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px}
+.stat-box .num{font-size:36px;color:var(--accent);font-weight:700;line-height:1;letter-spacing:-1px}
+.stat-box .lbl{font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-top:6px;font-weight:400}
+
+.flow{margin:24px 0;padding:24px;background:var(--paper2);border:1px solid var(--border);border-radius:8px;font-family:monospace;font-size:13px;color:var(--ink2);line-height:2.2}
+.flow .step{display:flex;align-items:flex-start;gap:12px}
+.flow .arrow{color:var(--accent);font-weight:700;flex-shrink:0}
+
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:24px 0}
+.stack-item{background:var(--paper2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.stack-item .purpose{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:6px}
+.stack-item .tool{font-size:14px;font-weight:500;color:var(--ink)}
+
+.cta-box{background:var(--ink);border-radius:12px;padding:40px;text-align:center;margin:48px 0}
+.cta-box h3{color:#fff;font-size:22px;margin-bottom:12px;font-weight:700}
+.cta-box p{color:var(--ink4);font-size:14px;margin-bottom:24px}
+.cta-box a{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--accent);color:#fff;border-radius:var(--r);font-size:14px;font-weight:500;text-decoration:none;transition:background .15s}
+.cta-box a:hover{background:var(--ah)}
+
+.divider{border:none;border-top:1px solid var(--border);margin:40px 0}
+
+footer{padding:32px 2rem;border-top:1px solid var(--border)}
+.fti{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.fl,.fr{font-size:13px;color:var(--ink4)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-i">
+    <a href="/" class="nav-logo">Srikanth Reddy</a>
+    <a href="/" class="nav-back">← Back to portfolio</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="kicker">Case Study · Marketing Automation · 2025–2026</div>
+  <h1>Building an AI-Powered Google Ads Keyword Intelligence Tool</h1>
+  <p class="hero-sub">How I automated keyword research, campaign structure generation, and anomaly detection — reducing a 2–3 hour manual process to under 60 seconds.</p>
+  <div class="meta">
+    <div class="meta-item"><div class="label">Role</div><div class="value">Designer & Developer</div></div>
+    <div class="meta-item"><div class="label">Stack</div><div class="value">Python · Streamlit · Groq AI</div></div>
+    <div class="meta-item"><div class="label">Status</div><div class="value">Live — Production</div></div>
+    <div class="meta-item"><div class="label">URL</div><div class="value"><a href="https://keyword-tool-automation.streamlit.app/" target="_blank" rel="noopener" style="color:var(--accent)">keyword-tool-automation.streamlit.app</a></div></div>
+  </div>
+</div>
+
+<div class="body">
+
+  <h2>The Problem</h2>
+  <p>Every Google Ads campaign starts with keyword research. And for most performance marketers, the process looks the same: open Keyword Planner, type a seed keyword, export a list, open a spreadsheet, manually group keywords by intent, write ad copy for each group, build a negatives list, then format everything for Google Ads Editor.</p>
+  <p>At high-volume performance marketing operations — running 20–30 campaigns per month across multiple verticals and geos — this process consumed 2–3 hours per campaign. It was repetitive, error-prone, and entirely mechanical. The cognitive work (deciding which keywords to prioritise, how to frame ad copy, which negatives to block) was buried under hours of data wrangling.</p>
+
+  <div class="callout">
+    <p>"The problem wasn't the thinking — it was everything surrounding the thinking. The tool should handle the surrounding work so the marketer can focus on the decisions that actually matter."</p>
+  </div>
+
+  <h2>The Solution</h2>
+  <p>I built a three-module keyword intelligence platform that automates the entire pre-campaign workflow — from seed keyword to export-ready campaign structure — in under 60 seconds.</p>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">50+</div><div class="lbl">Keywords per search</div></div>
+    <div class="stat-box"><div class="num">&lt;60s</div><div class="lbl">Full campaign structure</div></div>
+    <div class="stat-box"><div class="num">3</div><div class="lbl">Modules built</div></div>
+    <div class="stat-box"><div class="num">Live</div><div class="lbl">Deployed on Streamlit Cloud</div></div>
+  </div>
+
+  <h2>How It Works</h2>
+
+  <h3>Module 1 — Keyword Research</h3>
+  <p>Enter a seed keyword and country. The tool simultaneously queries three data sources to build a comprehensive keyword universe:</p>
+  <ul>
+    <li><strong>Google Autocomplete</strong> — pulls 50+ keyword variations using modifier patterns (buy, best, top, vs, near me, how to, cheap, online, for, without)</li>
+    <li><strong>Google Trends (PyTrends)</strong> — adds trend scores and rising keyword signals to prioritise momentum keywords</li>
+    <li><strong>DataForSEO</strong> — enriches with real search volume, CPC, and competition data</li>
+  </ul>
+  <p>Each keyword is automatically classified by intent — BOFU (buy, order, price), MOFU (best, review, top), TOFU (how, what, guide) — and question keywords are separated for DSA and content campaigns.</p>
+  <p>Groq AI (Llama 3.3 70B) then analyses the full dataset and returns: keyword clusters by theme, recommended ad group structure, ad copy (headlines + descriptions) per ad group, and a negative keywords list.</p>
+
+  <h3>Module 2 — Campaign Builder</h3>
+  <p>Takes the AI-generated clusters and builds a complete, export-ready campaign structure:</p>
+  <ul>
+    <li>Ad groups organised by intent with keywords and match types</li>
+    <li>3 headlines + 2 descriptions per ad group</li>
+    <li>Campaign-level and ad group-level negative keywords</li>
+    <li>Budget allocation recommendations split by funnel stage</li>
+    <li>Export to Google Ads Editor CSV format or directly to Google Sheets</li>
+  </ul>
+
+  <h3>Module 4 — Anomaly Detection</h3>
+  <p>Connects to live campaign performance data via Google Sheets, saves snapshots to BigQuery, and runs anomaly detection across all key metrics:</p>
+  <ul>
+    <li>Revenue and RPC drops vs previous snapshot, yesterday, and 7-day rolling average</li>
+    <li>Coverage drops below threshold</li>
+    <li>Scrub rate spikes</div>
+    <li>Conversion rate degradation</li>
+  </ul>
+  <p>When anomalies are detected, instant Telegram alerts are sent — bringing the response time from hours (next morning review) to minutes.</p>
+
+  <h2>Architecture</h2>
+  <div class="flow">
+    <div class="step"><span class="arrow">→</span><span>Seed keyword + country input</span></div>
+    <div class="step"><span class="arrow">→</span><span>Google Autocomplete + PyTrends + DataForSEO — parallel data fetch</span></div>
+    <div class="step"><span class="arrow">→</span><span>Intent classification — BOFU / MOFU / TOFU / Questions</span></div>
+    <div class="step"><span class="arrow">→</span><span>Groq AI (Llama 3) — clusters, ad groups, ad copy, negatives</span></div>
+    <div class="step"><span class="arrow">→</span><span>Campaign Builder — full structure with match types + budget split</span></div>
+    <div class="step"><span class="arrow">→</span><span>Export → Google Ads Editor CSV / Google Sheets</span></div>
+    <div class="step"><span class="arrow">→</span><span>Anomaly Detection → BigQuery snapshots → Telegram alerts</span></div>
+  </div>
+
+  <h2>Tech Stack</h2>
+  <div class="stack-grid">
+    <div class="stack-item"><div class="purpose">Frontend</div><div class="tool">Streamlit</div></div>
+    <div class="stack-item"><div class="purpose">AI Analysis</div><div class="tool">Groq API · Llama 3.3 70B</div></div>
+    <div class="stack-item"><div class="purpose">Keyword Data</div><div class="tool">Google Autocomplete</div></div>
+    <div class="stack-item"><div class="purpose">Trends</div><div class="tool">PyTrends (Google Trends)</div></div>
+    <div class="stack-item"><div class="purpose">Volume & CPC</div><div class="tool">DataForSEO API</div></div>
+    <div class="stack-item"><div class="purpose">Storage</div><div class="tool">Google BigQuery</div></div>
+    <div class="stack-item"><div class="purpose">Sheets Export</div><div class="tool">Google Sheets API · gspread</div></div>
+    <div class="stack-item"><div class="purpose">Alerts</div><div class="tool">Telegram Bot API</div></div>
+    <div class="stack-item"><div class="purpose">Deployment</div><div class="tool">Streamlit Cloud</div></div>
+    <div class="stack-item"><div class="purpose">Infrastructure</div><div class="tool">Google Cloud Platform</div></div>
+  </div>
+
+  <h2>Why I Built This</h2>
+  <p>I manage Google Ads campaigns with direct revenue accountability. When a campaign underperforms, the financial impact is immediate. That environment creates a very specific kind of clarity about what tools actually need to do — not what looks good in a demo, but what eliminates real friction in real workflows.</p>
+  <p>The keyword research and campaign setup process was the biggest time sink that didn't require human judgment at every step. The judgment is in deciding what to test, which segments to prioritise, and how to frame the value proposition for a specific audience. Everything else — pulling data, grouping, formatting, writing variations — is pattern matching that AI handles better and faster.</p>
+  <p>This tool is the result of building automation while operating the campaigns it's designed to support. That combination — deep domain knowledge plus engineering — is what makes the difference between a tool that looks impressive and one that actually gets used.</p>
+
+  <hr class="divider">
+
+  <div class="cta-box">
+    <h3>See it live</h3>
+    <p>The tool is deployed and publicly accessible. Enter any keyword and see the full research and campaign structure generated in real time.</p>
+    <a href="https://keyword-tool-automation.streamlit.app/" target="_blank" rel="noopener">↗ Open Live Tool</a>
+  </div>
+
+  <p style="font-size:13px;color:var(--ink4);text-align:center">Built by <a href="/" style="color:var(--accent)">Srikanth Reddy</a> · Performance Marketing & Automation Lead · Hyderabad, India</p>
+
+</div>
+
+<footer>
+  <div class="fti">
+    <span class="fl">© 2026 Srikanth Reddy</span>
+    <span class="fr"><a href="/" style="color:var(--ink4);text-decoration:none">← Back to portfolio</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
